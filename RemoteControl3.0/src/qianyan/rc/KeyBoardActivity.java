@@ -41,10 +41,10 @@ public class KeyBoardActivity extends Activity {
 	private RadioButton udlrButton;
 	private RadioButton wsadButton;
 	private boolean isUSLR = true;
-	private String volumedownkey =  "leftButton";
-	private String volumeupkey =  "leftButton";
+	private String volumedownkey = "leftButton";
+	private String volumeupkey = "leftButton";
 	private DatagramSocket socket;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,14 +61,14 @@ public class KeyBoardActivity extends Activity {
 		radiogroup = (RadioGroup) findViewById(R.id.radioGroup);
 		udlrButton = (RadioButton) findViewById(R.id.udlr);
 		wsadButton = (RadioButton) findViewById(R.id.wsad);
-		
+
 		try {
 			socket = new DatagramSocket();
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		sendbutton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -371,75 +371,72 @@ public class KeyBoardActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 
 		if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-			if(volumedownkey.equals("leftButton"))
+			if (volumedownkey.equals("leftButton"))
 				sendMessage("leftButton:down");
-			else if(volumedownkey.equals("rightButton"))
+			else if (volumedownkey.equals("rightButton"))
 				sendMessage("rightButton:down");
 			else
-				sendMessage("keyboard:key,"+volumedownkey+",down");
+				sendMessage("keyboard:key," + volumedownkey + ",down");
 			return true;
 
 		} else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
 
-			if(volumeupkey.equals("leftButton"))
+			if (volumeupkey.equals("leftButton"))
 				sendMessage("leftButton:down");
-			else if(volumeupkey.equals("rightButton"))
+			else if (volumeupkey.equals("rightButton"))
 				sendMessage("rightButton:down");
 			else
-				sendMessage("keyboard:key,"+volumeupkey+",down");
+				sendMessage("keyboard:key," + volumeupkey + ",down");
 			return true;
 
-		} else if( keyCode== KeyEvent.KEYCODE_HOME){
+		} else if (keyCode == KeyEvent.KEYCODE_HOME) {
 			return true;
-		} else if( keyCode== KeyEvent.KEYCODE_BACK){
+		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
 			return true;
-		} 
-		
+		}
+
 		return super.onKeyDown(keyCode, event);
 
 	}
-	
-	
-	 @Override  
-	 public void onAttachedToWindow() {  
-	        
-	     this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD);  
-	        
-	     super.onAttachedToWindow();  
-	 } 
-	
-	
+
+	@Override
+	public void onAttachedToWindow() {
+
+		this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD);
+
+		super.onAttachedToWindow();
+	}
 
 	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-			if(volumedownkey.equals("leftButton"))
+			if (volumedownkey.equals("leftButton"))
 				sendMessage("leftButton:release");
-			else if(volumedownkey.equals("rightButton"))
+			else if (volumedownkey.equals("rightButton"))
 				sendMessage("rightButton:release");
 			else
-				sendMessage("keyboard:key,"+volumedownkey+",up");
+				sendMessage("keyboard:key," + volumedownkey + ",up");
 			return true;
 
 		} else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
 
-			if(volumeupkey.equals("leftButton"))
+			if (volumeupkey.equals("leftButton"))
 				sendMessage("leftButton:release");
-			else if(volumeupkey.equals("rightButton"))
+			else if (volumeupkey.equals("rightButton"))
 				sendMessage("rightButton:release");
 			else
-				sendMessage("keyboard:key,"+volumeupkey+",up");
+				sendMessage("keyboard:key," + volumeupkey + ",up");
 			return true;
 
-		} 
-		
+		}
+
 		return super.onKeyUp(keyCode, event);
 	}
 
 	private void sendMessage(String str) {
 		try {
 			// 首先创建一个DatagramSocket对象
-			
+
 			// 创建一个InetAddree
 			InetAddress serverAddress = InetAddress.getByName(Settings.ipnum);
 			byte data[] = str.getBytes();
@@ -453,15 +450,14 @@ public class KeyBoardActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		getMenuInflater().inflate(R.menu.keyboardmenu, menu);
 		return true;
 	}
-	
+
 	/**
 	 * 捕捉菜单事件
 	 */
@@ -476,8 +472,8 @@ public class KeyBoardActivity extends Activity {
 			return true;
 		case R.id.keyboardvalumnup:
 			upsetting();
-			return true;	
-		
+			return true;
+
 		case R.id.reback:
 			doBack();
 			return true;
@@ -487,104 +483,110 @@ public class KeyBoardActivity extends Activity {
 		}
 		return false;
 	}
-	
-	private void help(){
-		new AlertDialog.Builder(KeyBoardActivity.this).setTitle("使用帮助")
-		.setMessage("本页面可进行信息的发送 其中DOS发送是在DOS窗口下 信息的发送   \n使用设置 可设置音量键的操作 以方便你的使用和操作").setIcon(R.drawable.icon)
-		.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				// finish();
-			}
-		}).setNegativeButton("返回",
-				new DialogInterface.OnClickListener() {
+
+	private void help() {
+		new AlertDialog.Builder(KeyBoardActivity.this)
+				.setTitle("使用帮助")
+				.setMessage(
+						"本页面可进行信息的发送 其中DOS发送是在DOS窗口下 信息的发送   \n使用设置 可设置音量键的操作 以方便你的使用和操作")
+				.setIcon(R.drawable.icon)
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						// finish();
+					}
+				})
+				.setNegativeButton("返回", new DialogInterface.OnClickListener() {
 
 					@Override
-					public void onClick(DialogInterface dialog,
-							int which) {
+					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
 
 					}
 
 				}).show();
 	}
-	
-	private void downsetting(){
-		final String[] items = {"鼠标左键","鼠标右键", "Ctrl键", "Z键","空格键","Down键"}; 
-    	new AlertDialog.Builder(this) 
-    	.setTitle("选择按键") //此处 this 代表当前Activity 
-    	.setItems(items, new DialogInterface.OnClickListener() { 
-    	public void onClick(DialogInterface dialog, int item) { 
-    	Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show(); //将选中的文本内容按照土司提示 方式显示出来, 此处的getApplicationContext() 得到的也是当前的Activity对象，可用当前Activity对象的名字.this代替（Activity.this） 
-    	switch (item) {
-		case 0:
-			volumedownkey="leftButton";
-			break;
-		case 1:
-			volumedownkey="rightButton";
-			break;	
-		case 2:
-			volumedownkey="Ctrl";
-			break;
-		case 3:
-			volumedownkey="Z";
-			break;
-		case 4:
-			volumedownkey="Space";
-			break;
-		case 5:
-			volumedownkey="Down";
-			break;
-		}
-    	} 
-    	}).show();//显示对话框 
-	}
-	
-	private void upsetting(){
-		final String[] items = {"鼠标左键","鼠标右键", "Ctrl键", "Z键","空格键","Up键"}; 
-    	new AlertDialog.Builder(this) 
-    	.setTitle("选择按键") //此处 this 代表当前Activity 
-    	.setItems(items, new DialogInterface.OnClickListener() { 
-    	public void onClick(DialogInterface dialog, int item) { 
-    	Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show(); //将选中的文本内容按照土司提示 方式显示出来, 此处的getApplicationContext() 得到的也是当前的Activity对象，可用当前Activity对象的名字.this代替（Activity.this） 
-    	switch (item) {
-		case 0:
-			volumeupkey="leftButton";
-			break;
-		case 1:
-			volumeupkey="rightButton";
-			break;	
-		case 2:
-			volumeupkey="Ctrl";
-			break;
-		case 3:
-			volumeupkey="Z";
-			break;
-		case 4:
-			volumeupkey="Space";
-			break;
-		case 5:
-			volumeupkey="Up";
-			break;
-		}
-    	} 
-    	}).show();//显示对话框 
-	}
-	
 
-	
-	private void doBack(){
-		 Intent intent = new Intent(KeyBoardActivity.this,ControlActivity.class);
-		 KeyBoardActivity.this.startActivity(intent);
-		 this.finish();
+	private void downsetting() {
+		final String[] items = { "鼠标左键", "鼠标右键", "Ctrl键", "Z键", "空格键", "Down键" };
+		new AlertDialog.Builder(this).setTitle("选择按键") // 此处 this 代表当前Activity
+				.setItems(items, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						Toast.makeText(getApplicationContext(), items[item],
+								Toast.LENGTH_SHORT).show(); // 将选中的文本内容按照土司提示
+															// 方式显示出来,
+															// 此处的getApplicationContext()
+															// 得到的也是当前的Activity对象，可用当前Activity对象的名字.this代替（Activity.this）
+						switch (item) {
+						case 0:
+							volumedownkey = "leftButton";
+							break;
+						case 1:
+							volumedownkey = "rightButton";
+							break;
+						case 2:
+							volumedownkey = "Ctrl";
+							break;
+						case 3:
+							volumedownkey = "Z";
+							break;
+						case 4:
+							volumedownkey = "Space";
+							break;
+						case 5:
+							volumedownkey = "Down";
+							break;
+						}
+					}
+				}).show();// 显示对话框
 	}
-	
+
+	private void upsetting() {
+		final String[] items = { "鼠标左键", "鼠标右键", "Ctrl键", "Z键", "空格键", "Up键" };
+		new AlertDialog.Builder(this).setTitle("选择按键") // 此处 this 代表当前Activity
+				.setItems(items, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int item) {
+						Toast.makeText(getApplicationContext(), items[item],
+								Toast.LENGTH_SHORT).show(); // 将选中的文本内容按照土司提示
+															// 方式显示出来,
+															// 此处的getApplicationContext()
+															// 得到的也是当前的Activity对象，可用当前Activity对象的名字.this代替（Activity.this）
+						switch (item) {
+						case 0:
+							volumeupkey = "leftButton";
+							break;
+						case 1:
+							volumeupkey = "rightButton";
+							break;
+						case 2:
+							volumeupkey = "Ctrl";
+							break;
+						case 3:
+							volumeupkey = "Z";
+							break;
+						case 4:
+							volumeupkey = "Space";
+							break;
+						case 5:
+							volumeupkey = "Up";
+							break;
+						}
+					}
+				}).show();// 显示对话框
+	}
+
+	private void doBack() {
+		Intent intent = new Intent(KeyBoardActivity.this, ControlActivity.class);
+		KeyBoardActivity.this.startActivity(intent);
+		this.finish();
+	}
+
 	protected void doExit() {
 		new AlertDialog.Builder(this)
 				.setMessage(getString(R.string.exit_message))
 				.setPositiveButton(getString(R.string.confirm),
 						new DialogInterface.OnClickListener() {
 							public void onClick(
-								DialogInterface dialoginterface, int i) {
+									DialogInterface dialoginterface, int i) {
 								finish();
 							}
 						})
@@ -596,5 +598,5 @@ public class KeyBoardActivity extends Activity {
 						}).show();
 
 	}
-	
+
 }
